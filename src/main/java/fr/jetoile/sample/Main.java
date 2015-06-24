@@ -24,33 +24,23 @@
 package fr.jetoile.sample;
 
 
-import ch.qos.logback.classic.helpers.MDCInsertingServletFilter;
 import com.codahale.metrics.JmxReporter;
 import com.codahale.metrics.MetricRegistry;
-import com.google.common.collect.Lists;
-import com.wordnik.swagger.jaxrs.config.BeanConfig;
 import fr.jetoile.sample.exception.BootstrapException;
-import fr.jetoile.sample.filter.MDCServletFilter;
-import fr.jetoile.sample.filter.ServletIdentityManager;
 import fr.jetoile.sample.service.SimpleService;
 import io.undertow.Undertow;
 import io.undertow.servlet.api.DeploymentInfo;
-import io.undertow.servlet.api.FilterInfo;
-import io.undertow.servlet.api.LoginConfig;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
-import org.jboss.resteasy.plugins.interceptors.CorsFilter;
 import org.jboss.resteasy.plugins.server.undertow.UndertowJaxrsServer;
 import org.jboss.resteasy.spi.ResteasyDeployment;
-import org.jboss.resteasy.spi.ResteasyProviderFactory;
 import org.jboss.resteasy.test.TestPortProvider;
 import org.jolokia.jvmagent.JolokiaServer;
 import org.jolokia.jvmagent.JolokiaServerConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.DispatcherType;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.HashMap;

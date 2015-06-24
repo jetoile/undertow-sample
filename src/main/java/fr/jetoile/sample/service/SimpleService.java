@@ -59,10 +59,7 @@ public class SimpleService {
             notes = "response the word",
             response = DtoResponse.class)
     @ApiResponses(value = {@ApiResponse(code = 500, message = "Internal server error")})
-    public Response getPortDataSet(
-            @PathParam("msg") String message) {
-
-        log.info("sample log");
+    public Response sayHello(@PathParam("msg") String message) {
 
         final Timer timer = Main.metricRegistry.timer(name(SimpleService.class, "say-service"));
         final Timer.Context context = timer.time();

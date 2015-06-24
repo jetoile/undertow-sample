@@ -100,8 +100,6 @@ public class Main {
         SimpleService simpleService = new SimpleService();
         ResteasyDeployment deployment = new ResteasyDeployment();
 
-        initSwagger(deployment);
-
         deployment.setResources(Arrays.<Object>asList(simpleService));
 
         int port = config.getInt("undertow.port", TestPortProvider.getPort());
@@ -123,51 +121,11 @@ public class Main {
         deploymentInfo.setContextPath("/");
         deploymentInfo.setClassLoader(Main.class.getClassLoader());
 
-
-
-        CorsFilter filter = new CorsFilter();
-        filter.setAllowedMethods("GET,POST,PUT,DELETE,OPTIONS");
-        filter.setAllowedHeaders("X-Requested-With, Content-Type, Content-Length, Authorization");
-        filter.getAllowedOrigins().add("*");
-
-        deployment.setProviderFactory(new ResteasyProviderFactory());
-        deployment.getProviderFactory().register(filter);
-
-        deployment.setSecurityEnabled(true);
-
-        FilterInfo mdcFilter = new FilterInfo("MDCFilter", MDCServletFilter.class);
-        deploymentInfo.addFilter(mdcFilter);
-        deploymentInfo.addFilterUrlMapping("MDCFilter", "*", DispatcherType.REQUEST);
-
-        FilterInfo mdcInsertingFilter = new FilterInfo("MDCInsertingServletFilter", MDCInsertingServletFilter.class);
-        deploymentInfo.addFilter(mdcInsertingFilter);
-        deploymentInfo.addFilterUrlMapping("MDCInsertingServletFilter", "*", DispatcherType.REQUEST);
-
-        ServletIdentityManager identityManager = new ServletIdentityManager();
-        identityManager.addUser("khanh", "khanh", "admin");
-
-        deploymentInfo = deploymentInfo.setIdentityManager(identityManager).setLoginConfig(new LoginConfig("BASIC", "Test Realm"));
-
         server.deploy(deploymentInfo);
 
         server.start(Undertow.builder().addHttpListener(port, host));
     }
 
-    private static void initSwagger(ResteasyDeployment deployment) {
-        BeanConfig swaggerConfig = new BeanConfig();
-        swaggerConfig.setVersion(config.getString("swagger.version", "1.0.0"));
-        swaggerConfig.setBasePath("http://" + config.getString("swagger.host", "localhost") + ":" + config.getString("swagger.port", "8081"));
-        swaggerConfig.setTitle(config.getString("swagger.title", "jetoile sample app"));
-        swaggerConfig.setScan(true);
-        swaggerConfig.setResourcePackage("fr.jetoile.sample.service");
-
-//        deployment.setProviderClasses(Lists.newArrayList("fr.jetoile.sample.JacksonConfig",
-        deployment.setProviderClasses(Lists.newArrayList(
-                "com.wordnik.swagger.jaxrs.listing.ResourceListingProvider",
-                "com.wordnik.swagger.jaxrs.listing.ApiDeclarationProvider"));
-        deployment.setResourceClasses(Lists.newArrayList("com.wordnik.swagger.jaxrs.listing.ApiListingResourceJSON"));
-        deployment.setSecurityEnabled(false);
-    }
 }
 
 

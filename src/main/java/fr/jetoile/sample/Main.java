@@ -29,6 +29,7 @@ import com.codahale.metrics.MetricRegistry;
 import fr.jetoile.sample.exception.BootstrapException;
 import fr.jetoile.sample.service.SimpleService;
 import io.undertow.Undertow;
+import io.undertow.UndertowOptions;
 import io.undertow.servlet.api.DeploymentInfo;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
@@ -40,6 +41,7 @@ import org.jolokia.jvmagent.JolokiaServer;
 import org.jolokia.jvmagent.JolokiaServerConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xnio.Option;
 
 import java.net.UnknownHostException;
 import java.util.Arrays;
@@ -106,6 +108,7 @@ public class Main {
 
         UndertowJaxrsServer server = new UndertowJaxrsServer();
 
+
         DeploymentInfo deploymentInfo = server.undertowDeployment(deployment);
         deploymentInfo.setDeploymentName("");
         deploymentInfo.setContextPath("/");
@@ -113,6 +116,7 @@ public class Main {
 
         server.deploy(deploymentInfo);
 
+//        server.start(Undertow.builder().addHttpListener(port, host).setIoThreads(32).setWorkerThreads(32 * 8).setBufferSize(1024 * 64).setBuffersPerRegion(40));
         server.start(Undertow.builder().addHttpListener(port, host));
     }
 

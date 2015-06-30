@@ -12,9 +12,11 @@ mvn package
 
 To launch
 =========
+untar the package (undertow-sample-1.0-SNAPSHOT.tar.gz).
 
 on linux, run: 
 ```
+./bin/undertow-sample start
 ```
 
 
@@ -23,5 +25,6 @@ To stop
 
 on linux, run: 
 ```
+./bin/undertow-sample stop
 ```
 
